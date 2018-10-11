@@ -6,13 +6,14 @@ This README contains the accompanying instructions for the follow-along workshop
 
 A GitHub account, an Azure account (see below) and a browser are the only mandatory requirements.
 
-**Please note**: For the Azure DevOps Pipelines integration to work, only a GitHub Account is needed. However for the Azure Function Apps deployment to work, you are going to need a separate Microsoft Azure account with a free subscription.
+**Please note**: For the Azure DevOps Pipelines integration to work, a GitHub Account and a Microsoft account are needed. However for the Azure Function Apps deployment to work, you are going to need a Microsoft Azure account with a free subscription.
 
 ## Instructions
 
-Ensure you have a working GitHub account, and [an Azure account with an active subscription](https://signup.azure.com ) (a free trial is available during signup – a phone number and a credit card are **required** although [no money will be exchanged](https://azure.microsoft.com/en-gb/offers/ms-azr-0044p/)).
+Ensure you have a working GitHub account, a Microsoft account, and [an Azure account with an active subscription](https://signup.azure.com ) (a free trial is available during signup – a phone number and a credit card are **required** although [no money will be exchanged](https://azure.microsoft.com/en-gb/offers/ms-azr-0044p/)).
 
-## Step 1. Fork repository and install Pipelines
+
+## Step 1. Fork repository and enable Issues
 
 1. Log in to your GitHub account
 2. Fork this repository: https://github.com/octodemo/github-craftwork-azure
@@ -27,11 +28,11 @@ Ensure you have a working GitHub account, and [an Azure account with an active s
 	1. Sign into your Azure account
 	2. Create a new Organization for the Pipelines project
 	3. Pick a region close to you
-	4. Name yopur Pipelines project something like `github-craftwork-azure`
+	4. Name your Pipelines project something like `github-craftwork-azure`
 3. The Azure Pipelines project is now set up and integrated with your GitHub repository.
 	1. Select the repository for creating the new pipeline
 	2. Do not modify the pipeline definition YAML file
-	3. Click RUN and wait until the build finishes successfully
+	3. Click `RUN` and wait until the build finishes successfully
 
 💡 Congrats! You have integrated an automated CI tool using Azure DevOps Pipelines on your repository.
 
@@ -40,7 +41,7 @@ Ensure you have a working GitHub account, and [an Azure account with an active s
 Our next step will be to create the Azure Function App where our code will be deployed.
 
 1. Log in on the [Microsoft Azure portal](https://portal.azure.com/)
-2. Click on `Create` -> `Compute` -> `Function App`
+2. Click on `Create a resource` -> `Compute` -> `Function App`
 
 <img src="readme/BC9B4CDC-4C1D-4009-83F7-7D52B185FA3E.png" width="350" >
 
@@ -132,9 +133,30 @@ Once you have the pem file encoded, go back to the Azure Portal and click on you
 
 💡 Woah! You buily your first GitHub App! Congratulations, human!
 
-## Step 6. Enjoy your automatic moderator!
+## Step 6. Alpha version: post a basic reply
 
-Create a new Issue in your repository and wait for our bot to interact with it!
+Create a new Issue in your repository and wait for the bot to post a "hello world" reply. This is the very first step towards real, AI-driven moderation. That is because the master branch only contains a basic version of our function that only posts a basic response.
+
+Next we will create a Pull Request to merge the contents of the `assign-label-to-new-issues` branch which contains a slightly different version of the basic demo code that will add a predetermined label to any new issue. This is so you get familiar with the pull request flow and so that we can verify that our Azure DevOps CI builds are running properly.
+
+1. Navigate to the `Code` section of your repository
+2. Click on the `branch` dropdown and select `assign-label-to-new-issues`
+3. Click on the `new pull request` button and confirm
+4. Wait for Azure DevOps to repurt the build ran successfully
+5. Merge the pull request
+6. Wait for the check next to the last commit in the `Commits` tab to also report "green" 
+7. Finally test the newly deployed version of the function by creating a new issue
+
+At this point you should see the label `enhancement` applied to any newly created issue.
+
+## Step 7. Turn on the AI moderation!
+
+We need to repeat the above procedure but this time by switching to the branch `use-luis-to-label-issues`. 
+Before we can do that, we need to extend the Application Settings on our Azure Function App to also add two more items.
+
+The workshop organizers will share the LUIS application ID and secret token at this point so that your own Function app can connect to our pre-trained LUIS service API that will parse your issues and send back a response that we can parse to determine which label to apply to the issue. 
+
+Once the pull request is merged and the new version deployed, you will finally see that the issues will get one of the 3 labels `bug`, `enhancement` and `question` applied automatically based on the input issue title. This is powered by the AI-driven cognitive services running on Microsoft LUIS.
 
 ### Further Reading
 

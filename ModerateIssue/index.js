@@ -19,7 +19,9 @@ module.exports = async function (context, data) {
         owner, 
         repo, 
         number, 
+
         labels: [label]
+
       })
     }
     context.res = {
